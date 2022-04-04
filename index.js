@@ -4,16 +4,21 @@ const PORT = 3000;
 
 const server = http.createServer((req, res) => {
   if (req.url === "/MC") {
-    res.writeHead(200, {
-      "Content-Type": "application/json",
-    });
+    // res.writeHead(200, {
+    //   "Content-Type": "application/json",
+    // });
+
+    //same functionality as commented code, just different calls.
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+
     res.end(
       JSON.stringify({
         name: "Nick Slaughter",
         type: "private detective",
       })
     );
-  } else {
+  } else if (req.url==='/') {
     res.writeHead(200, {
         "Content-Type": "text/html",
     });
@@ -26,13 +31,10 @@ const server = http.createServer((req, res) => {
     res.write("<h2>Main characters</h2>");
     res.write("</body>");
     res.write("</html>");
-    res
-      .end
-      //   JSON.stringify({
-      //     name: "Key-meriah",
-      //     type: "island",
-      //   })
-      ();
+    res.end();
+  } else {
+      res.statusCode = 404;
+      res.end();
   }
 });
 
