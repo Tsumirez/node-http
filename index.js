@@ -33,8 +33,8 @@ const cast = [
 const server = http.createServer();
 
 server.on('request', (req,res) => {
-  const items = req.url.split('/');
-  if (items.length == 2) {
+  const items = req.url.split('/').filter(val => val!=="");
+  if (items.length === 0) {
     // res.writeHead(200, {
     //   "Content-Type": "application/json",
     // });
@@ -46,8 +46,8 @@ server.on('request', (req,res) => {
     res.end(
       JSON.stringify(cast)
     );
-  } else if (items.length === 3) {
-    let movieCharacter = +items[2];
+  } else if ((items.length === 1) && (+items[0]<cast.length)) {
+    let movieCharacter = +items[0];
     res.writeHead(200, {
       "Content-Type": "text/html",
     });
