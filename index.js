@@ -33,11 +33,17 @@ const cast = [
 const server = http.createServer();
 
 server.on("request", (req, res) => {
-  if (req.method === "POST" && items[1]) {
+  const items = req.url.split("/").filter((val) => val !== "");
+
+  if (req.method === "POST" && items[0] === "cast") {
+    req.on('data', (data) => {
+      const actor = data.toString();
+      console.log('Reqest: ', actor);
+      cast.push(JSON.parse(actor));
+    })
   }
 
   if (req.method === "GET") {
-    const items = req.url.split("/").filter((val) => val !== "");
 
     res.statusCode = 200;
     res.writeHead(200, {
